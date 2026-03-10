@@ -59,6 +59,13 @@ extensions = [
 [repo_package.packages."platform:windows-x86_64".docs]
 windows_max_path_length = 0
 
+[[repo_kit_pull_extensions.environment]]
+name = "integ"
+app_version_regex = ""
+tokens.registry_url = "https://ovextensionsprod.blob.core.windows.net"
+tokens.registry_shared_name = "shared"
+tokens.registry_name = "kit/prod"
+
 [repo_precache_exts]
 registries = [
     { name = "kit/default", url = "https://ovextensionsprod.blob.core.windows.net/exts/kit/prod/${kit_version_major}/shared" },
