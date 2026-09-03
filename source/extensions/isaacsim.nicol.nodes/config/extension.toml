@@ -1,0 +1,29 @@
+[package]
+version = "1.0.0" # Semantic Versioning is used: https://semver.org/
+
+# These fields are used primarily for display in the extension browser UI.
+title = "NICOL Robot OmniGraph Nodes"
+description = "Custom OmniGraph nodes for the NICOL robot, including a hierarchy-based (non-joint-graph) transform tree node."
+category = "Simulation"
+keywords = ["isaac", "nicol", "robot", "OmniGraph", "transform tree"]
+icon = "data/icon.png"
+preview_image = "data/preview.png"
+changelog = "docs/CHANGELOG.md"
+readme  = "docs/Overview.md"
+authors = ["NICOL"]
+
+[dependencies]
+"omni.graph.core" = {}
+"omni.graph.tools" = {}
+
+[[python.module]]
+name = "isaacsim.nicol.nodes"
+
+[[native.plugin]]
+path = "bin/*.plugin"
+
+[documentation]
+pages = [
+    "docs/Overview.md",
+    "docs/CHANGELOG.md",
+]

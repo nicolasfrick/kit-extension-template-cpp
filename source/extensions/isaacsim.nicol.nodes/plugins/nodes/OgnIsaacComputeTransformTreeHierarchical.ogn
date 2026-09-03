@@ -1,0 +1,63 @@
+{
+    "IsaacComputeTransformTreeHierarchical": {
+        "version": 1,
+        "icon": "icons/isaac-sim.svg",
+        "description": [
+            "Computes a robot_state_publisher-style transform tree.",
+            "For each target prim, the TF parent is resolved as:",
+            "  1. The explicit override at the matching index in parentOverrides, if non-empty.",
+            "  2. Otherwise, the nearest USD ancestor prim that is itself in targetPrims.",
+            "  3. Otherwise, parentPrim (or World, if parentPrim is also unset)."
+        ],
+        "metadata": {
+            "uiName": "Isaac Compute Transform Tree (Hierarchical)"
+        },
+        "categoryDefinitions": "config/CategoryDefinition.json",
+        "categories": "nicolRobot",
+        "inputs": {
+            "execIn": {
+                "type": "execution",
+                "description": "The input execution port"
+            },
+            "targetPrims": {
+                "type": "target",
+                "description": "Target prims to compute transforms for.",
+                "metadata": {
+                    "allowMultiInputs": "1"
+                }
+            },
+            "parentOverrides": {
+                "type": "token[]",
+                "description": "Optional per-target parent path override, index-aligned with targetPrims. An empty string at a given index means: fall back to the nearest ancestor prim that is itself a target.",
+                "default": []
+            },
+            "parentPrim": {
+                "type": "target",
+                "description": "Fallback parent for any target with no explicit override and no target ancestor. Leave blank to use World.",
+                "optional": true
+            }
+        },
+        "outputs": {
+            "execOut": {
+                "type": "execution",
+                "description": "The output execution port"
+            },
+            "parentFrames": {
+                "type": "token[]",
+                "description": "Parent frame name per transform"
+            },
+            "childFrames": {
+                "type": "token[]",
+                "description": "Child frame name per transform"
+            },
+            "translations": {
+                "type": "double[3][]",
+                "description": "Translation (x, y, z) per transform in stage units"
+            },
+            "orientations": {
+                "type": "double[4][]",
+                "description": "Quaternion (x, y, z, w) per transform"
+            }
+        }
+    }
+}

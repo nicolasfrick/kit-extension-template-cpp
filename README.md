@@ -1,3 +1,17 @@
+# Custom Node Creation
+
+This fork is used to create custom extensions for IsaacSim.
+
+Usage:
+- clone the repository
+- follow the steps in Creating New C++ Extensions
+- run ./link_kit.sh first, then ./build.sh to build the extension (rebuilds everything)
+- find the generated binary under kit-extension-template-cpp/_build/linux-x86_64/release/exts/bin
+- choose a method to get the exts/ directory into isaacsim's extensions search paths, e.g. create a symlink:
+	ln -s <repository_path>/kit-extension-template-cpp/_build/linux-x86_64/release/exts/<extension_name> \
+    <isaacsim_installation_path>/isaacsim/exts/<extension_name>
+
+
 # Omniverse Kit C++ Extension Template
 
 This project contains everything necessary to develop extensions that contain C++ code, along with a number of examples demonstrating best practices for creating them.

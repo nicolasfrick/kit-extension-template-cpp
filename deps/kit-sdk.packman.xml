@@ -1,5 +1,6 @@
 <project toolsVersion="5.0">
-  <dependency name="kit_kernel_${config}" linkPath="../_build/${platform_target}/${config}/kit" tags="${config} non-redist">
-    <package name="kit-kernel" version="110.0.0+feature.${platform_target_abi}.${config}"/>
-  </dependency>
+  <!-- Intentionally not a packman-fetched dependency: this repo targets a pre-existing binary
+       Isaac Sim install (see ../_build/${platform_target}/${config}/kit, symlinked by hand to
+       /home/isaac/isaacsim/kit) so the extension's ABI matches that exact install instead of a
+       separately-downloaded Kit build. -->
 </project>
