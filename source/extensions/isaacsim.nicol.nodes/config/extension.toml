@@ -13,6 +13,7 @@ readme  = "docs/Overview.md"
 authors = ["NICOL"]
 
 [dependencies]
+"omni.graph" = {}  # required for Python node registration
 "omni.graph.core" = {}
 "omni.graph.tools" = {}
 

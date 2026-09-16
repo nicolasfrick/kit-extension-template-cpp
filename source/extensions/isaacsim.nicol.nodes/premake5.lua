@@ -37,7 +37,8 @@ project_ext_plugin(ext, ogn.plugin_project)
     add_files("source", "plugins/"..ogn.module)
     add_files("nodes", "plugins/nodes")
 
-    -- Add the standard dependencies all OGN projects have; includes, libraries to link, and required compiler flags
-    add_ogn_dependencies(ogn)
+    -- Add the standard dependencies all OGN projects have; includes, libraries to link, and required compiler flags.
+    -- The directory list links the Python node implementations (e.g. OgnROS2PublishRobotDescription.py) into ogn/.
+    add_ogn_dependencies(ogn, { "plugins/nodes" })
 
     cppdialect "C++17"

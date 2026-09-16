@@ -1,0 +1,75 @@
+{
+    "ROS2PublishRobotDescription": {
+        "version": 1,
+        "icon": "icons/isaac-sim.svg",
+        "language": "Python",
+        "description": [
+            "Publishes a URDF robot description the way robot_state_publisher does:",
+            "latched (transient local) on the robot_description topic and as the 'robot_description' parameter",
+            "of its own ROS 2 node. The description is read from urdfString, or from urdfPath (.xacro files are",
+            "processed with xacro). It is republished only when the inputs change.",
+            "Unlike robot_state_publisher, no TF is published."
+        ],
+        "metadata": {
+            "uiName": "ROS2 Publish Robot Description"
+        },
+        "categoryDefinitions": "config/CategoryDefinition.json",
+        "categories": "nicolRobot",
+        "inputs": {
+            "execIn": {
+                "type": "execution",
+                "description": "The input execution port"
+            },
+            "context": {
+                "type": "uint64",
+                "description": "Connect a ROS2 Context node to publish on its domain ID. Unconnected: $ROS_DOMAIN_ID, or 0.",
+                "default": 0
+            },
+            "qosProfile": {
+                "type": "string",
+                "description": "QoS profile config from a ROS2 QoS Profile node. Empty: keepLast, depth 1, reliable, transientLocal (latched like robot_state_publisher).",
+                "default": ""
+            },
+            "urdfPath": {
+                "type": "string",
+                "description": "Path to a .urdf or .xacro file; may start with $(find <pkg>) or package://<pkg>. Ignored if urdfString is set.",
+                "default": ""
+            },
+            "xacroArgs": {
+                "type": "string",
+                "description": "Space separated xacro arguments, e.g. 'name:=value other:=value'. Only used for .xacro files.",
+                "default": ""
+            },
+            "urdfString": {
+                "type": "string",
+                "description": "URDF XML to publish directly. Takes precedence over urdfPath.",
+                "default": ""
+            },
+            "nodeName": {
+                "type": "string",
+                "description": "Name of the ROS 2 node holding the robot_description parameter.",
+                "default": "robot_description_publisher"
+            },
+            "nodeNamespace": {
+                "type": "string",
+                "description": "Namespace of the ROS 2 node. The topic resolves relative to it.",
+                "default": ""
+            },
+            "topicName": {
+                "type": "string",
+                "description": "Topic the description is published on.",
+                "default": "robot_description"
+            }
+        },
+        "outputs": {
+            "execOut": {
+                "type": "execution",
+                "description": "The output execution port"
+            },
+            "robotDescription": {
+                "type": "string",
+                "description": "The URDF XML currently being published"
+            }
+        }
+    }
+}
