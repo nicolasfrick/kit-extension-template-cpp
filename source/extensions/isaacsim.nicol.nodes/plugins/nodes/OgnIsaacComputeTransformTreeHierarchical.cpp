@@ -104,8 +104,25 @@ public:
             return xformCache.GetLocalToWorldTransform(stage->GetPrimAtPath(path));
         };
 
-        auto frameName = [](const pxr::SdfPath& path) -> std::string
-        { return (path == pxr::SdfPath::AbsoluteRootPath()) ? "world" : path.GetName(); };
+        // Mirrors isaacsim::core::includes::getName(): a non-empty `isaac:nameOverride` wins over the prim name.
+        static const pxr::TfToken kNameOverride("isaac:nameOverride");
+        auto frameName = [&](const pxr::SdfPath& path) -> std::string
+        {
+            if (path == pxr::SdfPath::AbsoluteRootPath())
+            {
+                return "world";
+            }
+            if (pxr::UsdPrim prim = stage->GetPrimAtPath(path))
+            {
+                std::string nameOverride;
+                pxr::UsdAttribute attr = prim.GetAttribute(kNameOverride);
+                if (attr && attr.Get(&nameOverride) && !nameOverride.empty())
+                {
+                    return nameOverride;
+                }
+            }
+            return path.GetName();
+        };
 
         std::vector<NameToken> parentFramesOut;
         std::vector<NameToken> childFramesOut;
