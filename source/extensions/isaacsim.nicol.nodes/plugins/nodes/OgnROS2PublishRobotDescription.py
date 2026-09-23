@@ -122,8 +122,12 @@ class OgnROS2PublishRobotDescriptionInternalState:
 
         # own context, so this node neither depends on nor interferes with other rclpy users in the process
         self.context = rclpy.Context()
-        self.context.init(domain_id=domain_id)
-        self.node = rclpy.create_node(node_name, namespace=namespace or None, context=self.context)
+        # args=[]: without it rclpy uses sys.argv, i.e. the host process' --ros-args (e.g. a launch file's
+        # __node:= remap and --params-file), which would rename this node and load foreign parameters
+        self.context.init(args=[], domain_id=domain_id)
+        self.node = rclpy.create_node(
+            node_name, namespace=namespace or None, context=self.context, use_global_arguments=False
+        )
         self.node.declare_parameter("robot_description", self.description)
         self.publisher = self.node.create_publisher(String, topic, qos)
 
