@@ -16,6 +16,7 @@ authors = ["NICOL"]
 "omni.graph" = {}  # required for Python node registration
 "omni.graph.core" = {}
 "omni.graph.tools" = {}
+"omni.ui" = {}  # DynamicTextureProvider of ROS2SubscribeFaceExpression
 
 [[python.module]]
 name = "isaacsim.nicol.nodes"

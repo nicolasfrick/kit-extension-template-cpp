@@ -1,0 +1,56 @@
+{
+    "ROS2SubscribeFaceExpression": {
+        "version": 1,
+        "icon": "icons/isaac-sim.svg",
+        "language": "Python",
+        "description": [
+            "Shows NICOL's face expression on the face's LED panels. Subscribes to the images of nicol_face_expression",
+            "(sensor_msgs/Image, rgba8, header.frame_id m | l | r for mouth, left and right eyebrow) and turns each into",
+            "two dynamic textures, dynamic://nicol_face_<id> (emission, alpha = opacity) and dynamic://nicol_face_<id>_base",
+            "(base color), bound to the panel meshes carrying face:region = <id>. The conversion runs on the ROS thread,",
+            "the upload in compute and only when an expression changed."
+        ],
+        "metadata": {
+            "uiName": "ROS2 Subscribe Face Expression"
+        },
+        "categoryDefinitions": "config/CategoryDefinition.json",
+        "categories": "nicolRobot",
+        "inputs": {
+            "execIn": {
+                "type": "execution",
+                "description": "The input execution port"
+            },
+            "context": {
+                "type": "uint64",
+                "description": "Connect a ROS2 Context node to subscribe on its domain ID. Unconnected: $ROS_DOMAIN_ID, or 0.",
+                "default": 0
+            },
+            "qosProfile": {
+                "type": "string",
+                "description": "QoS profile config from a ROS2 QoS Profile node. Empty: keepLast, depth 10, reliable, transientLocal (latched like the publisher; one expression is one image per region).",
+                "default": ""
+            },
+            "nodeName": {
+                "type": "string",
+                "description": "Name of the ROS 2 node holding the subscription.",
+                "default": "face_expression_display"
+            },
+            "nodeNamespace": {
+                "type": "string",
+                "description": "Namespace of the ROS 2 node. The topic resolves relative to it.",
+                "default": ""
+            },
+            "topicName": {
+                "type": "string",
+                "description": "Topic of the face expression images.",
+                "default": "/NICOL/head/face_expression_texture"
+            }
+        },
+        "outputs": {
+            "execOut": {
+                "type": "execution",
+                "description": "Enabled when a new face expression image was shown"
+            }
+        }
+    }
+}
