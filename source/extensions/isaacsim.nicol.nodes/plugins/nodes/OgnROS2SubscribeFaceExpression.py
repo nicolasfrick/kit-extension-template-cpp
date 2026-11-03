@@ -29,7 +29,7 @@ TEXTURE_PREFIX = "nicol_face_"
 REGION_ATTR = "face:region"
 
 LED_FULL = 150                 # alpha of a fully lit LED in nicol_face_expression's images (ong_rgba)
-LED_COLOR = (255, 145, 0)      # neon orange: the panels' color, whatever the images' (255, 150, 50)
+LED_COLOR = (255, 170, 85)     # warm orange, the panels' color whatever the images' (255, 150, 50); (255, 145, 0) read too saturated (2026-11-04)
 # panel base where no LED glows, linear: the shell's 0.9 renders darker (its translucency shows the
 # dark head inside), 0.82 matches it in the render (2026-11-02), so the panel's edge does not show
 SHELL_GRAY = 0.82
