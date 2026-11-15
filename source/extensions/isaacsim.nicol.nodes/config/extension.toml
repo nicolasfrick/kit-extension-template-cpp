@@ -1,5 +1,5 @@
 [package]
-version = "1.0.0" # Semantic Versioning is used: https://semver.org/
+version = "1.1.0" # Semantic Versioning is used: https://semver.org/
 
 # These fields are used primarily for display in the extension browser UI.
 title = "NICOL Robot OmniGraph Nodes"
@@ -17,6 +17,7 @@ authors = ["NICOL"]
 "omni.graph.core" = {}
 "omni.graph.tools" = {}
 "omni.ui" = {}  # DynamicTextureProvider of ROS2SubscribeFaceExpression
+"omni.physx" = {}  # contact report and scene queries of ROS2PublishFingertipForces / ROS2PublishPalmLaser
 
 [[python.module]]
 name = "isaacsim.nicol.nodes"

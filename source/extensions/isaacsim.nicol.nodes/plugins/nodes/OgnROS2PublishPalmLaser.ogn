@@ -1,0 +1,107 @@
+{
+    "ROS2PublishPalmLaser": {
+        "version": 1,
+        "icon": "icons/isaac-sim.svg",
+        "language": "Python",
+        "description": [
+            "Simulates the RH8D's palm time-of-flight range sensor and publishes it like the hardware (nicol_msgs/PalmLaser,",
+            "data in mm). One PhysX scene-query ray from sensorPrim along its +x (URDF r_laser / l_laser: the palm's -x),",
+            "clipped to [minRange, maxRange]; maxRange when nothing is in range. Hits on the sensor's own rigid body",
+            "(the palm) are skipped, ignoreHand also skips the bodies of the whole hand."
+        ],
+        "metadata": {
+            "uiName": "ROS2 Publish Palm Laser"
+        },
+        "categoryDefinitions": "config/CategoryDefinition.json",
+        "categories": "nicolRobot",
+        "inputs": {
+            "execIn": {
+                "type": "execution",
+                "description": "The input execution port"
+            },
+            "context": {
+                "type": "uint64",
+                "description": "Connect a ROS2 Context node to publish on its domain ID. Unconnected: $ROS_DOMAIN_ID, or 0.",
+                "default": 0
+            },
+            "qosProfile": {
+                "type": "string",
+                "description": "QoS profile config from a ROS2 QoS Profile node. Empty: keepLast, depth 10, reliable, volatile (nicol_controller's publisher).",
+                "default": ""
+            },
+            "nodeName": {
+                "type": "string",
+                "description": "Name of the ROS 2 node holding the publisher.",
+                "default": "palm_laser"
+            },
+            "nodeNamespace": {
+                "type": "string",
+                "description": "Namespace of the ROS 2 node. A relative topic resolves in it.",
+                "default": ""
+            },
+            "topicName": {
+                "type": "string",
+                "description": "Topic of the range (hardware: /right/laser, /left/laser).",
+                "default": "/right/laser"
+            },
+            "timeStamp": {
+                "type": "double",
+                "description": "Header stamp [s] and clock of publishRate; connect an Isaac Read Simulation Time node.",
+                "default": 0.0
+            },
+            "publishRate": {
+                "type": "double",
+                "description": "Publish rate [Hz] in simulation time (Gazebo: 50); 0 publishes on every tick.",
+                "default": 50.0
+            },
+            "sensorPrim": {
+                "type": "target",
+                "description": "The sensor frame (the palm's laser Xform); the ray starts at its origin along its +x."
+            },
+            "minRange": {
+                "type": "double",
+                "description": "Shortest range [m]; nearer hits read this.",
+                "default": 0.002
+            },
+            "maxRange": {
+                "type": "double",
+                "description": "Longest range [m]; read when nothing is nearer.",
+                "default": 0.2
+            },
+            "rangeScale": {
+                "type": "double",
+                "description": "Factor from metres to the published unit (1000: mm, as nicol_gui and the Gazebo NicolLaserPlugin).",
+                "default": 1000.0
+            },
+            "roundOutput": {
+                "type": "bool",
+                "description": "Round the published value to whole units (the hardware register and Gazebo report whole mm).",
+                "default": true
+            },
+            "ignoreHand": {
+                "type": "bool",
+                "description": "Skip hits on every rigid body under the parent of the sensor's body (the RH8D's fingers). Off: the hand's own fingers block the ray, as on the robot.",
+                "default": false
+            },
+            "frameId": {
+                "type": "string",
+                "description": "header.frame_id (Gazebo: r_laser / l_laser).",
+                "default": "r_laser"
+            }
+        },
+        "outputs": {
+            "execOut": {
+                "type": "execution",
+                "description": "Enabled when a message was published"
+            },
+            "range": {
+                "type": "double",
+                "description": "The clipped range [m], unscaled (the Isaac Lab observation palm_tof_distance)"
+            },
+            "hitPrim": {
+                "type": "string",
+                "description": "Collider the ray hit within maxRange, empty if none"
+            }
+        }
+    }
+}

@@ -1,0 +1,92 @@
+{
+    "ROS2PublishFingertipForces": {
+        "version": 1,
+        "icon": "icons/isaac-sim.svg",
+        "language": "Python",
+        "description": [
+            "Simulates the RH8D's fingertip force sensors (Seed Robotics FTS3) and publishes them like the hardware driver",
+            "(third_party/ros2_fts, ros2_sensor_pkg/AllSensors): one LoneSensor per tip prim, id = its index in tipPrims.",
+            "Force = net force of every contact on the tip body (PhysX contact report, the tips need PhysxContactReportAPI),",
+            "expressed in that tip's frame, times forceScale (default 1000: N -> mN, int64). abs, yaw, pitch as ros2_fts",
+            "computes them. Contact pairs are tracked from found to lost, so a resting (sleeping) grasp keeps its force."
+        ],
+        "metadata": {
+            "uiName": "ROS2 Publish Fingertip Forces"
+        },
+        "categoryDefinitions": "config/CategoryDefinition.json",
+        "categories": "nicolRobot",
+        "inputs": {
+            "execIn": {
+                "type": "execution",
+                "description": "The input execution port"
+            },
+            "context": {
+                "type": "uint64",
+                "description": "Connect a ROS2 Context node to publish on its domain ID. Unconnected: $ROS_DOMAIN_ID, or 0.",
+                "default": 0
+            },
+            "qosProfile": {
+                "type": "string",
+                "description": "QoS profile config from a ROS2 QoS Profile node. Empty: keepLast, depth 10, reliable, volatile (the driver's publisher).",
+                "default": ""
+            },
+            "nodeName": {
+                "type": "string",
+                "description": "Name of the ROS 2 node holding the publisher.",
+                "default": "fingertip_sensors"
+            },
+            "nodeNamespace": {
+                "type": "string",
+                "description": "Namespace of the ROS 2 node. A relative topic resolves in it.",
+                "default": ""
+            },
+            "topicName": {
+                "type": "string",
+                "description": "Topic of the sensor readings (hardware: /right/AllSensors, /left/AllSensors).",
+                "default": "/right/AllSensors"
+            },
+            "timeStamp": {
+                "type": "double",
+                "description": "Header stamp [s] and clock of publishRate; connect an Isaac Read Simulation Time node.",
+                "default": 0.0
+            },
+            "publishRate": {
+                "type": "double",
+                "description": "Publish rate [Hz] in simulation time (the driver: 50); 0 publishes on every tick.",
+                "default": 50.0
+            },
+            "tipPrims": {
+                "type": "target",
+                "description": "Rigid bodies of the fingertips, in sensor id order (hardware: thumb, index, middle, ring, little; the left hand without the middle).",
+                "metadata": {
+                    "allowMultiInputs": "1"
+                }
+            },
+            "forceScale": {
+                "type": "double",
+                "description": "Factor from Newton to the published integer unit (1000: mN, as the Gazebo plugins assume for the FTS3).",
+                "default": 1000.0
+            },
+            "includeFriction": {
+                "type": "bool",
+                "description": "Add the friction (shear) impulses of the contacts. Off: normal forces only, like Isaac Lab's ContactSensor net_forces_w that the lift policy was trained on.",
+                "default": false
+            },
+            "frameId": {
+                "type": "string",
+                "description": "header.frame_id (the driver leaves it empty; each reading is in its tip's frame).",
+                "default": ""
+            }
+        },
+        "outputs": {
+            "execOut": {
+                "type": "execution",
+                "description": "Enabled when a message was published"
+            },
+            "forces": {
+                "type": "double[3][]",
+                "description": "Contact force per tip [N] in the tip's frame, unscaled (the Isaac Lab observation fingertip_forces_local)"
+            }
+        }
+    }
+}
